@@ -123,7 +123,7 @@ if q:
     scored.sort(key=lambda x: x[0], reverse=True)
     best = scored[:top_k]
 
-    st.subheader("Top matches")
+    st.subheader("Top Matches")
     for rank, (s, why, row) in enumerate(best, start=1):
         st.markdown(
             f"**{rank}. {row[COL_COMMON]}**  \n"
