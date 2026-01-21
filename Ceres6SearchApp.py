@@ -132,7 +132,7 @@ if q:
             f"- Key: `{row[COL_FULLKEY]}`  \n"
         )
 
-    st.subheader("Best answer (copy)")
+    st.subheader("Best Answer")
     best_row = best[0][2]
     st.code(
         f"{best_row[COL_COMMON]} | {best_row[COL_REPORT]}"
