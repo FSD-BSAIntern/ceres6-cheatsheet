@@ -93,9 +93,9 @@ def score_row(q_norm: str, q_tokens: set[str], row: pd.Series) -> tuple[int, dic
 # ---------- Streamlit UI ----------
 st.title("Report / Field Finder")
 
-st.write('Ask: "Where can I find an agency delivery zone code?"')
+st.write('Ask Something Like: "Where can I find agency delivery zone codes?"')
 
-uploaded = st.file_uploader("Upload your cheat sheet file (CSV)", type=["csv"])
+uploaded = st.file_uploader("Upload the Ceres6 Cheatsheet (CSV)", type=["csv"])
 if uploaded is None:
     st.stop()
 
