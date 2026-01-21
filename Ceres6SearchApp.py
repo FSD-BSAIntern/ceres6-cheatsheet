@@ -127,12 +127,9 @@ if q:
     for rank, (s, why, row) in enumerate(best, start=1):
         st.markdown(
             f"**{rank}. {row[COL_COMMON]}**  \n"
-            f"- Entity: `{row[COL_ENTITY]}`  \n"
             f"- Report: `{row[COL_REPORT]}`  \n"
             f"- Column: `{row[COL_KEYWORD]}`  \n"
-            f"- Canonical: `{row[COL_CANON]}`  \n"
             f"- Key: `{row[COL_FULLKEY]}`  \n"
-            f"- Score: `{s}` (syn={why['syn_phrase_hit']}, tokens={why['token_overlap']}, entity={why['entity_bonus']})"
         )
 
     st.subheader("Best answer (copy)")
