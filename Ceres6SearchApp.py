@@ -127,7 +127,7 @@ if q:
     for rank, (s, why, row) in enumerate(best, start=1):
         st.markdown(
             f"**{rank}. {row[COL_COMMON]}**  \n"
-            f"- Report: `{row[COL_REPORT]}`  \n"
+            f"- Table: `{row[COL_REPORT]}`  \n"
             f"- Column: `{row[COL_KEYWORD]}`  \n"
             f"- Key: `{row[COL_FULLKEY]}`  \n"
         )
@@ -136,5 +136,4 @@ if q:
     best_row = best[0][2]
     st.code(
         f"{best_row[COL_COMMON]} | {best_row[COL_REPORT]} | "
-        f"{best_row[COL_KEYWORD]} | {best_row[COL_FULLKEY]}"
     )
