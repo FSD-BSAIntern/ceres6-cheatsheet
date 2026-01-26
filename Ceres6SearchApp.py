@@ -141,3 +141,4 @@ if q:
     st.code(
         f"{best_row[COL_COMMON]} | {best_row[COL_REPORT]}"
     )
+
