@@ -3,11 +3,13 @@
 # Author:               Isaiah De La Rosa
 # Project Manager:      Kristin Cruz
 # Date Created:         January 21, 2026
-# Last Modified:        January 21, 2026
+# Last Modified:        January 26, 2026
 
 import re
+from pathlib import Path
 import pandas as pd
 import streamlit as st
+
 
 # ---------- Config ----------
 STOPWORDS = {
@@ -92,14 +94,16 @@ def score_row(q_norm: str, q_tokens: set[str], row: pd.Series) -> tuple[int, dic
 
 # ---------- Streamlit UI ----------
 st.title("Report / Field Finder")
-
 st.write('Ask Something Like: "Where can I find agency delivery zone codes?"')
 
-uploaded = st.file_uploader("Upload the Ceres6 Cheatsheet (CSV)", type=["csv"])
-if uploaded is None:
-    st.stop()
+APP_DIR = Path(__file__).resolve().parent
+CSV_PATH = APP_DIR / "Ceres6 Cheatsheet.csv"
 
-df = pd.read_csv(uploaded)
+@st.cache_data
+def load_data(path: Path) -> pd.DataFrame:
+    return pd.read_csv(path)
+
+df = load_data(CSV_PATH)
 
 # Validate columns
 required_cols = [COL_COMMON, COL_KEYWORD, COL_REPORT, COL_FULLKEY, COL_ENTITY, COL_CANON, COL_SYNONYMS]
@@ -123,21 +127,17 @@ if q:
     scored.sort(key=lambda x: x[0], reverse=True)
     best = scored[:top_k]
 
-    st.subheader("Top matches")
+    st.subheader("Top Matches")
     for rank, (s, why, row) in enumerate(best, start=1):
         st.markdown(
             f"**{rank}. {row[COL_COMMON]}**  \n"
-            f"- Entity: `{row[COL_ENTITY]}`  \n"
-            f"- Report: `{row[COL_REPORT]}`  \n"
+            f"- Table: `{row[COL_REPORT]}`  \n"
             f"- Column: `{row[COL_KEYWORD]}`  \n"
-            f"- Canonical: `{row[COL_CANON]}`  \n"
             f"- Key: `{row[COL_FULLKEY]}`  \n"
-            f"- Score: `{s}` (syn={why['syn_phrase_hit']}, tokens={why['token_overlap']}, entity={why['entity_bonus']})"
         )
 
-    st.subheader("Best answer (copy)")
+    st.subheader("Best Answer")
     best_row = best[0][2]
     st.code(
-        f"{best_row[COL_COMMON]} | {best_row[COL_REPORT]} | "
-        f"{best_row[COL_KEYWORD]} | {best_row[COL_FULLKEY]}"
+        f"{best_row[COL_COMMON]} | {best_row[COL_REPORT]}"
     )
